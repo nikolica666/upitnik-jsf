@@ -24,6 +24,4 @@ public class Question implements Serializable {
     private Integer maxLength;
     private String pattern;
 
-    // getters/setters omitted for brevity
-    // ...
 }

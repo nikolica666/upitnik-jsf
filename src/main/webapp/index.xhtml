@@ -3,24 +3,25 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:c="http://java.sun.com/jsp/jstl/core">
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui">
 
-    <ui:define name="title">All Questionnaires</ui:define>
+    <ui:define name="title">Svi upitnici</ui:define>
     <ui:define name="content">
         <h:panelGroup rendered="#{not empty param.done}">
-            <div class="card">Thanks! Submitted: <b>#{param.done}</b></div>
+            <div class="card">Hvala! Submitted: <b>#{param.done}</b></div>
         </h:panelGroup>
 
         <h:form>
             <div class="card" style="max-width:640px">
-                <h2>Available</h2>
+                <h2>Otvorene ankete</h2>
                 <ui:repeat value="#{questionnaireBean.listAll()}" var="q">
                     <div class="card">
                         <h3>#{q.title}</h3>
                         <p>#{q.description}</p>
-                        <h:link outcome="questionnaire" value="Start" includeViewParams="true">
+                        <p:link outcome="questionnaire" value="Start" includeViewParams="true">
                             <f:param name="id" value="#{q.id}"/>
-                        </h:link>
+                        </p:link>
                     </div>
                 </ui:repeat>
             </div>

@@ -23,6 +23,7 @@ public class QuestionnaireBean implements Serializable {
     @Inject
     private QuestionnaireService service;
 
+    @Setter
     private String questionnaireId;
     private Questionnaire questionnaire;
 

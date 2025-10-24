@@ -1,17 +1,17 @@
 {
-  "id": "onboarding",               // unique id (also the JSON file name sans .json)
+  "id": "test-all",
   "title": "New Hire Onboarding",
   "description": "Help us tailor your onboarding experience",
   "version": 1,
   "questions": [
     {
       "id": "fullName",
-      "type": "text",               // text | textarea | number | date | single | multi | rating
+      "type": "text",
       "label": "Your full name",
       "placeholder": "e.g., Ana Horvat",
       "required": true,
       "help": null,
-      "validators": {                // optional server-side constraints
+      "validators": {
         "minLength": 3,
         "maxLength": 80,
         "pattern": null
@@ -22,7 +22,7 @@
       "type": "single",
       "label": "Department",
       "required": true,
-      "options": [                   // for single/multi
+      "options": [
         { "value": "eng", "label": "Engineering" },
         { "value": "sales", "label": "Sales" },
         { "value": "ops", "label": "Operations" }
@@ -51,7 +51,7 @@
       "type": "rating",
       "label": "How satisfied are you with the hiring process?",
       "required": true,
-      "scale": 5                      // 1..N
+      "scale": 5
     },
     {
       "id": "bio",

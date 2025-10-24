@@ -1,0 +1,32 @@
+{
+  "id": "llm-future",
+  "title": "Trenutno buduće LLM-ova",
+  "description": "Opišite planove za korištenje LLM-ova u budućnosti",
+  "version": 1,
+  "questions": [
+    {
+      "id": "fullName",
+      "type": "text",
+      "label": "Your full name",
+      "placeholder": "e.g., Ana Horvat",
+      "required": true,
+      "help": null,
+      "validators": {
+        "minLength": 3,
+        "maxLength": 80,
+        "pattern": null
+      }
+    },
+    {
+      "id": "dept",
+      "type": "single",
+      "label": "Department",
+      "required": true,
+      "options": [
+        { "value": "eng", "label": "Engineering" },
+        { "value": "sales", "label": "Sales" },
+        { "value": "ops", "label": "Operations" }
+      ]
+    }
+  ]
+}

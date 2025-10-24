@@ -26,10 +26,14 @@ public class QuestionnaireService {
 
         cache = new LinkedHashMap<>();
         // discover bundled JSON files; for simplicity list them here or scan the folder if your container allows it
-        List<String> ids = Arrays.asList("onboarding", "satisfaction");
+        List<String> ids = Arrays.asList("llm-current", "llm-future");
         for (String id : ids) {
+            log.debug("Searching for {}.json", id);
             Questionnaire q = loadJson("/questionnaires/" + id + ".json");
-            if (q != null) cache.put(q.getId(), q);
+            if (q != null) {
+                log.debug("Found {}.json, adding to cache", id);
+                cache.put(q.getId(), q);
+            }
         }
 
         return cache;
