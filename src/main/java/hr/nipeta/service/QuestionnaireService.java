@@ -67,7 +67,7 @@ public class QuestionnaireService {
                 q.setLabel(jq.getString("label", q.getId()));
                 q.setPlaceholder(jq.getString("placeholder", null));
                 q.setHelp(jq.getString("help", null));
-                q.setRequired(jq.getBoolean("required", false));
+                q.setRequired(jq.getBoolean("required", true)); // default true
                 if (jq.containsKey("maxSelected")) q.setMaxSelected(jq.getInt("maxSelected"));
                 if (jq.containsKey("scale")) q.setScale(jq.getInt("scale"));
                 if (jq.containsKey("validators")) {
