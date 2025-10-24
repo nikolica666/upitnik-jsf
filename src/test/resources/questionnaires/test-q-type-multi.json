@@ -1,33 +1,9 @@
 {
-  "id": "test-all",
+  "id": "test-q-type-multi",
   "title": "New Hire Onboarding",
   "description": "Help us tailor your onboarding experience",
   "version": 1,
   "questions": [
-    {
-      "id": "fullName",
-      "type": "text",
-      "label": "Your full name",
-      "placeholder": "e.g., Ana Horvat",
-      "required": true,
-      "help": null,
-      "validators": {
-        "minLength": 3,
-        "maxLength": 80,
-        "pattern": null
-      }
-    },
-    {
-      "id": "dept",
-      "type": "single",
-      "label": "Department",
-      "required": true,
-      "options": [
-        { "value": "eng", "label": "Engineering" },
-        { "value": "sales", "label": "Sales" },
-        { "value": "ops", "label": "Operations" }
-      ]
-    },
     {
       "id": "skills",
       "type": "multi",
@@ -39,26 +15,6 @@
         { "value": "sql", "label": "SQL" }
       ],
       "maxSelected": 3
-    },
-    {
-      "id": "startDate",
-      "type": "date",
-      "label": "Planned start date",
-      "required": true
-    },
-    {
-      "id": "satisfaction",
-      "type": "rating",
-      "label": "How satisfied are you with the hiring process?",
-      "required": true,
-      "scale": 5
-    },
-    {
-      "id": "bio",
-      "type": "textarea",
-      "label": "Short bio",
-      "required": false,
-      "validators": { "maxLength": 500 }
     }
   ]
 }
