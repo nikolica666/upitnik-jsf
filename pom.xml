@@ -33,7 +33,7 @@
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>13.0.19-LTS</version>
+            <version>13.0.10</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -50,6 +50,25 @@
 
     <build>
         <finalName>upitnik-jsf</finalName>
+        <plugins>
+            <plugin>
+                <groupId>io.openliberty.tools</groupId>
+                <artifactId>liberty-maven-plugin</artifactId>
+                <version>3.11.5</version>
+                <configuration>
+                    <serverName>questionnaireServer</serverName>
+                    <runtimeArtifact>
+                        <groupId>io.openliberty</groupId>
+                        <artifactId>openliberty-runtime</artifactId>
+                        <version>24.0.0.9</version><!-- da ne downloada svaki mjesec novi server -->
+                        <type>zip</type>
+                    </runtimeArtifact>
+                    <appsDirectory>apps</appsDirectory>
+                    <looseApplication>true</looseApplication>
+                    <include>usr</include>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
 </project>
