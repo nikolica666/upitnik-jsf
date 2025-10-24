@@ -1,0 +1,9 @@
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:p="http://primefaces.org/ui">
+    <p:selectOneMenu value="#{answers[q.id]}" required="#{q.required}" style="min-width:200px">
+        <f:selectItem itemLabel="-- select --" noSelectionOption="true"/>
+        <ui:repeat value="#{q.options}" var="o">
+            <f:selectItem itemLabel="#{o.label}" itemValue="#{o.value}"/>
+        </ui:repeat>
+    </p:selectOneMenu>
+</ui:fragment>

@@ -1,0 +1,29 @@
+<ui:composition template="template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="title">All Questionnaires</ui:define>
+    <ui:define name="content">
+        <h:panelGroup rendered="#{not empty param.done}">
+            <div class="card">Thanks! Submitted: <b>#{param.done}</b></div>
+        </h:panelGroup>
+
+        <h:form>
+            <div class="card" style="max-width:640px">
+                <h2>Available</h2>
+                <ui:repeat value="#{questionnaireBean.listAll()}" var="q">
+                    <div class="card">
+                        <h3>#{q.title}</h3>
+                        <p>#{q.description}</p>
+                        <h:link outcome="questionnaire" value="Start" includeViewParams="true">
+                            <f:param name="id" value="#{q.id}"/>
+                        </h:link>
+                    </div>
+                </ui:repeat>
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>

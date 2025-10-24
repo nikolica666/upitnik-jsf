@@ -1,0 +1,64 @@
+{
+  "id": "onboarding",               // unique id (also the JSON file name sans .json)
+  "title": "New Hire Onboarding",
+  "description": "Help us tailor your onboarding experience",
+  "version": 1,
+  "questions": [
+    {
+      "id": "fullName",
+      "type": "text",               // text | textarea | number | date | single | multi | rating
+      "label": "Your full name",
+      "placeholder": "e.g., Ana Horvat",
+      "required": true,
+      "help": null,
+      "validators": {                // optional server-side constraints
+        "minLength": 3,
+        "maxLength": 80,
+        "pattern": null
+      }
+    },
+    {
+      "id": "dept",
+      "type": "single",
+      "label": "Department",
+      "required": true,
+      "options": [                   // for single/multi
+        { "value": "eng", "label": "Engineering" },
+        { "value": "sales", "label": "Sales" },
+        { "value": "ops", "label": "Operations" }
+      ]
+    },
+    {
+      "id": "skills",
+      "type": "multi",
+      "label": "Key skills",
+      "required": false,
+      "options": [
+        { "value": "java", "label": "Java" },
+        { "value": "jsf", "label": "JSF" },
+        { "value": "sql", "label": "SQL" }
+      ],
+      "maxSelected": 3
+    },
+    {
+      "id": "startDate",
+      "type": "date",
+      "label": "Planned start date",
+      "required": true
+    },
+    {
+      "id": "satisfaction",
+      "type": "rating",
+      "label": "How satisfied are you with the hiring process?",
+      "required": true,
+      "scale": 5                      // 1..N
+    },
+    {
+      "id": "bio",
+      "type": "textarea",
+      "label": "Short bio",
+      "required": false,
+      "validators": { "maxLength": 500 }
+    }
+  ]
+}

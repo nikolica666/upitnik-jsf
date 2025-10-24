@@ -1,0 +1,45 @@
+<ui:composition template="template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <f:metadata>
+            <f:viewParam name="id" value="#{questionnaireBean.questionnaireId}"/>
+            <f:event type="preRenderView" listener="#{questionnaireBean.load(questionnaireBean.questionnaireId)}"/>
+        </f:metadata>
+
+        <h:panelGroup rendered="#{not empty questionnaireBean.questionnaire}">
+            <h2>#{questionnaireBean.questionnaire.title}</h2>
+            <p>#{questionnaireBean.questionnaire.description}</p>
+
+            <h:form id="form">
+                <p:wizard widgetVar="wiz" showStepStatus="false" showNavBar="false" flowListener="#{questionnaireBean.onFlowProcess}">
+                    <ui:repeat value="#{questionnaireBean.questionnaire.questions}" var="q" varStatus="s">
+                        <p:tab id="step#{s.index}" title="#{s.index + 1}">
+                            <div class="card">
+                                <div class="label">#{q.label} <h:outputText rendered="#{q.required}" value="*"/></div>
+                                <div class="help" rendered="#{not empty q.help}">#{q.help}</div>
+                                <ui:param name="q" value="#{q}"/>
+                                <ui:param name="answers" value="#{questionnaireBean.answers}"/>
+                                <ui:include src="/fragments/q_#{q.type}.xhtml"/>
+                            </div>
+                        </p:tab>
+                    </ui:repeat>
+                </p:wizard>
+
+                <div class="actions">
+                    <p:commandButton value="Previous" actionListener="#{questionnaireBean.prev}" update="form" disabled="#{questionnaireBean.index eq 0}"/>
+                    <p:commandButton value="Next" actionListener="#{questionnaireBean.next}" update="form" disabled="#{questionnaireBean.last}"/>
+                    <p:commandButton value="Submit" action="#{questionnaireBean.submit}" update="form" rendered="#{questionnaireBean.last}"/>
+                </div>
+            </h:form>
+        </h:panelGroup>
+
+        <h:panelGroup rendered="#{empty questionnaireBean.questionnaire}">
+            <div class="card">Unknown questionnaire.</div>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>

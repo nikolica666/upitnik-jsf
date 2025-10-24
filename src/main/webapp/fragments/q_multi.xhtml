@@ -1,0 +1,8 @@
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:p="http://primefaces.org/ui">
+    <p:selectManyCheckbox value="#{answers[q.id]}" layout="pageDirection">
+        <ui:repeat value="#{q.options}" var="o">
+            <f:selectItem itemLabel="#{o.label}" itemValue="#{o.value}"/>
+        </ui:repeat>
+    </p:selectManyCheckbox>
+</ui:fragment>

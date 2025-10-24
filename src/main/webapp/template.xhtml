@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <title><ui:insert name="title">Questionnaire</ui:insert></title>
+    <h:outputStylesheet>
+        body { font-family: system-ui, sans-serif; margin: 2rem; }
+        .card { border: 1px solid #ddd; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; }
+        .label { font-weight: 600; margin-bottom: .25rem; }
+        .help { color: #666; font-size: .9em; }
+        .actions { margin-top: 1rem; display:flex; gap:.5rem; }
+    </h:outputStylesheet>
+</h:head>
+<h:body>
+    <header><h1>JSF Questionnaire</h1></header>
+    <main>
+        <ui:insert name="content"/>
+    </main>
+</h:body>
+</html>
