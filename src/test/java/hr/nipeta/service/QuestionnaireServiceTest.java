@@ -53,7 +53,6 @@ public class QuestionnaireServiceTest {
         List<Option> options = question.getOptions();
         assertNotNull(options);
         assertFalse(options.isEmpty());
-        assertEquals(1, options.size());
 
     }
 

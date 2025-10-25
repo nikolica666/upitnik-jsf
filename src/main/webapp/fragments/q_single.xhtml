@@ -4,8 +4,6 @@
              xmlns:p="http://primefaces.org/ui">
     <p:selectOneMenu value="#{answers[q.id]}" required="#{q.required}" style="min-width:200px">
         <f:selectItem itemLabel="-- select --" noSelectionOption="true"/>
-        <ui:repeat value="#{q.options}" var="o">
-            <f:selectItem itemLabel="#{o.label}" itemValue="#{o.value}"/>
-        </ui:repeat>
+        <f:selectItems value="#{q.options}" var="o" itemLabel="#{o.label}" itemValue="#{o.value}"/>
     </p:selectOneMenu>
 </ui:fragment>

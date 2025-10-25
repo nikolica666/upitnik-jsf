@@ -3,8 +3,6 @@
              xmlns:ui="http://java.sun.com/jsf/facelets"
              xmlns:p="http://primefaces.org/ui">
     <p:selectManyCheckbox value="#{answers[q.id]}" layout="pageDirection">
-        <ui:repeat value="#{q.options}" var="o">
-            <f:selectItem itemLabel="#{o.label}" itemValue="#{o.value}"/>
-        </ui:repeat>
+        <f:selectItems value="#{q.options}" var="o" itemLabel="#{o.label}" itemValue="#{o.value}"/>
     </p:selectManyCheckbox>
 </ui:fragment>

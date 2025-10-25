@@ -6,6 +6,8 @@ import hr.nipeta.model.Questionnaire;
 import hr.nipeta.service.QuestionnaireService;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import org.primefaces.event.FlowEvent;
 
 import javax.enterprise.context.SessionScoped; // keep answers across pages; switch to ViewScoped if you prefer per-view
 import javax.faces.application.FacesMessage;
@@ -15,9 +17,11 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.*;
 
+
 @Named
 @SessionScoped
 @Getter
+@Slf4j
 public class QuestionnaireBean implements Serializable {
 
     @Inject
@@ -36,6 +40,13 @@ public class QuestionnaireBean implements Serializable {
             this.questionnaireId = id;
             this.questionnaire = service.byId(id);
             this.answers = new LinkedHashMap<>();
+            for (Question q : questionnaire.getQuestions()) {
+                if (Objects.requireNonNull(q.getType()) == QuestionType.multi) {
+                    answers.put(q.getId(), new ArrayList<>());
+                } else {
+                    answers.put(q.getId(), null);
+                }
+            }
             this.index = 0;
         }
     }
@@ -77,12 +88,18 @@ public class QuestionnaireBean implements Serializable {
         return "index?faces-redirect=true&done=" + done;
     }
 
-    public String onFlowProcess(org.primefaces.event.FlowEvent event) {
+    public String onFlowProcess(FlowEvent event) {
+        log.debug("flow event getOldStep " + event.getOldStep());
+        log.debug("flow event getNewStep " + event.getNewStep());
         if (!validateCurrent()) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Please complete this question."));
+            log.debug("not valid");
             return event.getOldStep();
         }
+        log.debug("valid");
+
         index = questionnaire.getQuestions().indexOf(findQuestionByStep(event.getNewStep()));
+        log.debug("index=" + index);
         return event.getNewStep();
     }
 

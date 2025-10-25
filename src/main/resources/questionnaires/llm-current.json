@@ -27,6 +27,31 @@
         { "value": "sales", "label": "Sales" },
         { "value": "ops", "label": "Operations" }
       ]
+    },
+    {
+      "id": "dept",
+      "type": "multi",
+      "label": "Department",
+      "required": true,
+      "options": [
+        { "value": "eng", "label": "Engineering" },
+        { "value": "sales", "label": "Sales" },
+        { "value": "ops", "label": "Operations" }
+      ]
+    },
+    {
+      "id": "satisfaction",
+      "type": "rating",
+      "label": "How satisfied are you with the hiring process?",
+      "required": true,
+      "scale": 5
+    },
+    {
+      "id": "bio",
+      "type": "textarea",
+      "label": "Short bio",
+      "required": false,
+      "validators": { "maxLength": 500 }
     }
   ]
 }

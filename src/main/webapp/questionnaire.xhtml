@@ -1,5 +1,6 @@
 <ui:composition template="template.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -17,18 +18,19 @@
             <p>#{questionnaireBean.questionnaire.description}</p>
 
             <h:form id="form">
-                <p:wizard widgetVar="wiz" showStepStatus="false" showNavBar="false" flowListener="#{questionnaireBean.onFlowProcess}">
-                    <ui:repeat value="#{questionnaireBean.questionnaire.questions}" var="q" varStatus="s">
-                        <p:tab id="step#{s.index}" title="#{s.index + 1}">
+                <p:wizard widgetVar="wiz" showStepStatus="true" showNavBar="true" flowListener="#{questionnaireBean.onFlowProcess}">
+                    <c:forEach items="#{questionnaireBean.questionnaire.questions}" var="q" varStatus="s">
+                        <p:tab id="step#{s.index}" title="12344#{s.index + 1}">
                             <div class="card">
                                 <div class="label">#{q.label} <h:outputText rendered="#{q.required}" value="*"/></div>
                                 <div class="help" rendered="#{not empty q.help}">#{q.help}</div>
-                                <ui:param name="q" value="#{q}"/>
-                                <ui:param name="answers" value="#{questionnaireBean.answers}"/>
-                                <ui:include src="/fragments/q_#{q.type}.xhtml"/>
+                                <ui:include src="/fragments/q_#{q.type}.xhtml">
+                                    <ui:param name="q" value="#{q}"/>
+                                    <ui:param name="answers" value="#{questionnaireBean.answers}"/>
+                                </ui:include>
                             </div>
                         </p:tab>
-                    </ui:repeat>
+                    </c:forEach>
                 </p:wizard>
 
                 <div class="actions">
