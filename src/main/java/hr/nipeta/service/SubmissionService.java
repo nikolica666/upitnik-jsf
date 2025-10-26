@@ -19,6 +19,7 @@ public class SubmissionService {
     @Transactional
     public void save(String questionnaireId, String submittedBy, String answersJson) {
         Submission s = new Submission(questionnaireId, submittedBy, answersJson);
+        log.debug("Saving '{}' submitted by {}\r\n{}", questionnaireId, submittedBy, answersJson);
         em.persist(s);
     }
 

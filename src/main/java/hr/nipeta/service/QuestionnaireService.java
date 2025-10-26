@@ -4,13 +4,14 @@ import hr.nipeta.model.Option;
 import hr.nipeta.model.Question;
 import hr.nipeta.model.QuestionType;
 import hr.nipeta.model.Questionnaire;
+import hr.nipeta.util.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.json.Json;
+import javax.json.JsonArray;
 import javax.json.JsonObject;
-import java.io.InputStream;
 import java.util.*;
+import java.util.function.IntConsumer;
 
 @ApplicationScoped
 @Slf4j
@@ -45,59 +46,77 @@ public class QuestionnaireService {
 
     }
 
+    private Questionnaire loadJson(String path) {
+        return JsonUtils.loadJson(path, this::parseQuestionnaire);
+    }
+
+    private Questionnaire parseQuestionnaire(JsonObject root) {
+        Questionnaire qn = new Questionnaire();
+        qn.setId(root.getString("id"));
+        qn.setTitle(root.getString("title", qn.getId()));
+        qn.setDescription(root.getString("description", ""));
+        qn.setVersion(root.getInt("version", 1));
+
+        List<Question> questions = new ArrayList<>();
+        for (JsonObject jq : root.getJsonArray("questions").getValuesAs(JsonObject.class)) {
+            questions.add(parseQuestion(jq));
+        }
+
+        qn.setQuestions(questions);
+        return qn;
+    }
+
+    private Question parseQuestion(JsonObject jq) {
+        Question q = new Question();
+        q.setId(jq.getString("id"));
+        q.setType(QuestionType.valueOf(jq.getString("type")));
+        q.setLabel(jq.getString("label", q.getId()));
+        q.setPlaceholder(jq.getString("placeholder", null));
+        q.setHelp(jq.getString("help", null));
+        q.setRequired(jq.getBoolean("required", true)); // default true
+
+        // optional simple numeric fields
+        setIfPresent(jq, "maxSelected", q::setMaxSelected);
+        setIfPresent(jq, "scale", q::setScale);
+
+        // nested validators
+        if (jq.containsKey("validators")) {
+            parseValidators(jq.getJsonObject("validators"), q);
+        }
+
+        // options list
+        if (jq.containsKey("options")) {
+            q.setOptions(parseOptions(jq.getJsonArray("options")));
+        }
+
+        return q;
+    }
+
+    private void parseValidators(JsonObject v, Question q) {
+        setIfPresent(v, "minLength", q::setMinLength);
+        setIfPresent(v, "maxLength", q::setMaxLength);
+        if (v.containsKey("pattern")) {
+            q.setPattern(v.isNull("pattern") ? null : v.getString("pattern"));
+        }
+    }
+
+    private List<Option> parseOptions(JsonArray array) {
+        List<Option> opts = new ArrayList<>();
+        for (JsonObject jo : array.getValuesAs(JsonObject.class)) {
+            Option o = new Option();
+            o.setValue(jo.getString("value"));
+            o.setLabel(jo.getString("label", o.getValue()));
+            opts.add(o);
+        }
+        return opts;
+    }
+
+    private void setIfPresent(JsonObject obj, String key, IntConsumer setter) {
+        if (obj.containsKey(key)) setter.accept(obj.getInt(key));
+    }
+
     public Questionnaire byId(String id) {
         return getAll().get(id);
     }
 
-    private Questionnaire loadJson(String path) {
-
-        try (InputStream is = getClass().getResourceAsStream(path)) {
-
-            if (is == null) {
-                return null;
-            }
-
-            JsonObject root = Json.createReader(is).readObject();
-            Questionnaire qn = new Questionnaire();
-            qn.setId(root.getString("id"));
-            qn.setTitle(root.getString("title", qn.getId()));
-            qn.setDescription(root.getString("description", ""));
-            qn.setVersion(root.getInt("version", 1));
-
-            List<Question> questions = new ArrayList<>();
-            for (JsonObject jq : root.getJsonArray("questions").getValuesAs(JsonObject.class)) {
-                Question q = new Question();
-                q.setId(jq.getString("id"));
-                q.setType(QuestionType.valueOf(jq.getString("type")));
-                q.setLabel(jq.getString("label", q.getId()));
-                q.setPlaceholder(jq.getString("placeholder", null));
-                q.setHelp(jq.getString("help", null));
-                q.setRequired(jq.getBoolean("required", true)); // default true
-                if (jq.containsKey("maxSelected")) q.setMaxSelected(jq.getInt("maxSelected"));
-                if (jq.containsKey("scale")) q.setScale(jq.getInt("scale"));
-                if (jq.containsKey("validators")) {
-                    JsonObject v = jq.getJsonObject("validators");
-                    if (v.containsKey("minLength")) q.setMinLength(v.getInt("minLength"));
-                    if (v.containsKey("maxLength")) q.setMaxLength(v.getInt("maxLength"));
-                    if (v.containsKey("pattern")) q.setPattern(v.isNull("pattern") ? null : v.getString("pattern"));
-                }
-                if (jq.containsKey("options")) {
-                    List<Option> opts = new ArrayList<>();
-                    for (JsonObject jo : jq.getJsonArray("options").getValuesAs(JsonObject.class)) {
-                        Option o = new Option();
-                        o.setValue(jo.getString("value"));
-                        o.setLabel(jo.getString("label", o.getValue()));
-                        opts.add(o);
-                    }
-                    q.setOptions(opts);
-                }
-                questions.add(q);
-            }
-            qn.setQuestions(questions);
-            return qn;
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            return null;
-        }
-    }
 }
