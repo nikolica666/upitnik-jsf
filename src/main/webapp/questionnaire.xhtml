@@ -8,7 +8,11 @@
                 xmlns:p="http://primefaces.org/ui">
 
     <f:metadata>
-        <f:viewParam name="id" value="#{questionnaireBean.questionnaireId}"/>
+        <f:viewParam
+                name="id"
+                value="#{questionnaireBean.questionnaireId}"
+                required="true"
+                requiredMessage="Obavezno navedite upitnik" />
         <f:viewAction action="#{questionnaireBean.load}"/>
     </f:metadata>
 
@@ -70,5 +74,6 @@
         <h:panelGroup rendered="#{empty questionnaire}">
             <div class="card">Nepoznati upitnik.</div>
         </h:panelGroup>
+
     </ui:define>
 </ui:composition>

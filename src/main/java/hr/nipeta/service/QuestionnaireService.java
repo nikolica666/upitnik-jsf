@@ -9,8 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import javax.enterprise.context.ApplicationScoped;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.io.InputStream;
 import java.util.*;
 
@@ -18,7 +16,7 @@ import java.util.*;
 @Slf4j
 public class QuestionnaireService {
 
-    public static final List<String> QUESTIONNAIRES = Arrays.asList("llm-current", "llm-future", "simple");
+    public static final List<String> QUESTIONNAIRES = Arrays.asList("llm-current", "llm-future", "simple", "simple-expired");
 
     private Map<String, Questionnaire> cache;
 

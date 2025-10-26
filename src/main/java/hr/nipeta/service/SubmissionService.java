@@ -1,19 +1,12 @@
 package hr.nipeta.service;
 
 import hr.nipeta.jpa.Submission;
-import hr.nipeta.model.Option;
-import hr.nipeta.model.Question;
-import hr.nipeta.model.QuestionType;
-import hr.nipeta.model.Questionnaire;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.json.Json;
-import javax.json.JsonObject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.io.InputStream;
 import java.util.*;
 
 @ApplicationScoped

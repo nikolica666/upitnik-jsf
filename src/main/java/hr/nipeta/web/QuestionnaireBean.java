@@ -11,13 +11,11 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.omnifaces.util.Faces;
 import org.omnifaces.util.Messages;
-import org.primefaces.event.FlowEvent;
 
-import javax.enterprise.context.SessionScoped; // keep answers across pages; switch to ViewScoped if you prefer per-view
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 
@@ -44,20 +42,26 @@ public class QuestionnaireBean implements Serializable {
     private Map<String, Object> answers = new LinkedHashMap<>();
     private int index = 0; // current question index; or render all at once
 
-    public void load() {
+    public void load() throws IOException {
 
-        if (questionnaireId == null) {
+        if (questionnaireId == null || questionnaireId.isEmpty()) {
+            Messages.addFlashGlobalError("Preusmjereni ste na početni ekran jer upitnik nije naveden");
+            Faces.redirect("index.xhtml");
+            resetQuestionnaire();
             return;
         }
 
         if (!QUESTIONNAIRES.contains(questionnaireId)) {
+            Messages.addFlashGlobalError("Preusmjereni ste na početni ekran jer ne postoji upitnik za ID ''{0}''", questionnaireId);
+            Faces.redirect("index.xhtml");
+            resetQuestionnaire();
             return;
         }
 
         if (questionnaire == null || !Objects.equals(questionnaire.getId(), questionnaireId)) {
             questionnaire = questionnaireService.byId(questionnaireId);
             if (questionnaire == null || !questionnaire.isCurrentlyValid()) {
-                Messages.addGlobalError("Ovaj upitnik je neakrivan ili ne postoji");
+                Messages.addGlobalError("Ovaj upitnik je neaktivan ili ne postoji");
                 questionnaire = null;
                 return;
             }
@@ -119,13 +123,18 @@ public class QuestionnaireBean implements Serializable {
         submissionService.save(questionnaire.getId(), username, json);
 
         String done = questionnaireId;
+
+        resetQuestionnaire();
+
+        return "index?faces-redirect=true&done=" + done;
+
+    }
+
+    private void resetQuestionnaire() {
         questionnaire = null;
         answers.clear();
         index = 0;
         questionnaireId = null;
-
-        return "index?faces-redirect=true&done=" + done;
-
     }
 
     private Question findQuestionByStep(String stepId) {
