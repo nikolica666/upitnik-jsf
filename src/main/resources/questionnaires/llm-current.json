@@ -10,7 +10,7 @@
       "label": "Your full name",
       "placeholder": "e.g., Ana Horvat",
       "required": true,
-      "help": null,
+      "help": "Upišite vaše puno ime i prezime",
       "validators": {
         "minLength": 3,
         "maxLength": 80,
@@ -52,6 +52,12 @@
       "label": "Short bio",
       "required": false,
       "validators": { "maxLength": 500 }
+    },
+    {
+      "id": "startDate",
+      "type": "date",
+      "label": "Planned start date",
+      "required": true
     }
   ]
 }

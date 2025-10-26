@@ -1,13 +1,18 @@
-<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
-             xmlns:f="http://java.sun.com/jsf/core"
-             xmlns:ui="http://java.sun.com/jsf/facelets"
-             xmlns:p="http://primefaces.org/ui">
-    <p:inputText value="#{answers[q.id]}"
-                 required="#{q.required}"
-                 requiredMessage="Required"
-                 maxlength="#{q.maxLength}"
-                 title="#{q.help}"
-                 placeholder="#{q.placeholder}">
-        <f:validateLength minimum="#{q.minLength}" maximum="#{q.maxLength}"/>
-    </p:inputText>
-</ui:fragment>
+<ui:composition template="q_template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="input">
+        <p:inputText value="#{answers[q.id]}"
+                     required="#{q.required}"
+                     requiredMessage="Required"
+                     maxlength="#{q.maxLength}"
+                     title="#{q.help}"
+                     placeholder="#{q.placeholder}">
+            <f:validateLength minimum="#{q.minLength}" maximum="#{q.maxLength}" />
+        </p:inputText>
+    </ui:define>
+
+</ui:composition>

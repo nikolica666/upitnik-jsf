@@ -1,5 +1,10 @@
-<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
-             xmlns:ui="http://java.sun.com/jsf/facelets"
-             xmlns:p="http://primefaces.org/ui">
-    <p:datePicker value="#{answers[q.id]}" pattern="yyyy-MM-dd" required="#{q.required}" showIcon="true"/>
-</ui:fragment>
+<ui:composition template="q_template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="input">
+        <p:datePicker value="#{answers[q.id]}" pattern="dd.MM.yyyy." required="#{q.required}" showIcon="true"/>
+    </ui:define>
+
+</ui:composition>

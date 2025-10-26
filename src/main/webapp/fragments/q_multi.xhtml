@@ -1,8 +1,13 @@
-<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
-             xmlns:f="http://java.sun.com/jsf/core"
-             xmlns:ui="http://java.sun.com/jsf/facelets"
-             xmlns:p="http://primefaces.org/ui">
-    <p:selectManyCheckbox value="#{answers[q.id]}" layout="pageDirection">
-        <f:selectItems value="#{q.options}" var="o" itemLabel="#{o.label}" itemValue="#{o.value}"/>
-    </p:selectManyCheckbox>
-</ui:fragment>
+<ui:composition template="q_template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="input">
+        <p:selectManyCheckbox value="#{answers[q.id]}" layout="pageDirection">
+            <f:selectItems value="#{q.options}" var="o" itemLabel="#{o.label}" itemValue="#{o.value}"/>
+        </p:selectManyCheckbox>
+    </ui:define>
+
+</ui:composition>

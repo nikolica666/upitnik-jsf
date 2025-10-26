@@ -1,9 +1,14 @@
-<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
-             xmlns:f="http://java.sun.com/jsf/core"
-             xmlns:ui="http://java.sun.com/jsf/facelets"
-             xmlns:p="http://primefaces.org/ui">
-    <p:selectOneMenu value="#{answers[q.id]}" required="#{q.required}" style="min-width:200px">
-        <f:selectItem itemLabel="-- select --" noSelectionOption="true"/>
-        <f:selectItems value="#{q.options}" var="o" itemLabel="#{o.label}" itemValue="#{o.value}"/>
-    </p:selectOneMenu>
-</ui:fragment>
+<ui:composition template="q_template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="input">
+        <p:selectOneMenu value="#{answers[q.id]}" required="#{q.required}" style="min-width:200px">
+            <f:selectItem itemLabel="-- select --" noSelectionOption="true"/>
+            <f:selectItems value="#{q.options}" var="o" itemLabel="#{o.label}" itemValue="#{o.value}"/>
+        </p:selectOneMenu>
+    </ui:define>
+
+</ui:composition>

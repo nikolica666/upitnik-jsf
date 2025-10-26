@@ -38,10 +38,6 @@
             <!-- current question -->
             <div class="card">
                 <h3>Step #{questionIndex + 1} of #{questionsSize}</h3>
-                <div class="label">#{question.label}
-                    <div value=" *" jsf:rendered="#{question.required}" />
-                </div>
-                <div class="help" jsf:rendered="#{not empty question.help}">#{question.help}</div>
                 <ui:include src="fragments/q_#{question.type}.xhtml">
                     <ui:param name="q" value="#{question}" />
                     <ui:param name="answers" value="#{questionnaireBean.answers}" />

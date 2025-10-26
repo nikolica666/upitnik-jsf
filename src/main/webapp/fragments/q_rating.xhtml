@@ -1,5 +1,11 @@
-<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
-             xmlns:ui="http://java.sun.com/jsf/facelets"
-             xmlns:p="http://primefaces.org/ui">
-    <p:rating value="#{answers[q.id]}" stars="#{q.scale}" required="#{q.required}" cancel="false"/>
-</ui:fragment>
+<ui:composition template="q_template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="input">
+        <p:rating value="#{answers[q.id]}" stars="#{q.scale}" required="#{q.required}" cancel="false"/>
+    </ui:define>
+
+</ui:composition>

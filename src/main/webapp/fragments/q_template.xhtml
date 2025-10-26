@@ -1,0 +1,14 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:outputLabel for="@next">#{q.label}</p:outputLabel>
+
+    <ui:insert name="input" />
+
+    <p:tooltip for="@previous" rendered="#{not empty q.help}">
+        #{q.help}
+    </p:tooltip>
+
+</ui:composition>
