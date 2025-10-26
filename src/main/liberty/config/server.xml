@@ -25,7 +25,7 @@
                 libraryRef="h2Lib" />
         <!-- In-memory, Oracle mode -->
         <properties
-                url="jdbc:h2:mem:devdb;DB_CLOSE_DELAY=-1;MODE=Oracle"
+                url="jdbc:h2:mem:devdb;MODE=Oracle;DB_CLOSE_DELAY=-1;INIT=CREATE SEQUENCE IF NOT EXISTS SUBMISSIONS_SEQ START WITH 1;"
                 user="sa"
                 password="" />
     </dataSource>

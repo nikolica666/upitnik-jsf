@@ -6,6 +6,14 @@
 
     <persistence-unit name="MyPU" transaction-type="JTA">
         <jta-data-source>jdbc/MyDS</jta-data-source>
+
+        <properties>
+            <property name="eclipselink.ddl-generation" value="create-tables" />
+            <property name="eclipselink.ddl-generation.output-mode" value="database" />
+            <property name="eclipselink.target-database" value="org.eclipse.persistence.platform.database.OraclePlatform"/>
+            <property name="eclipselink.logging.level.sql" value="FINEST"/>
+        </properties>
+
     </persistence-unit>
 
 </persistence>

@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import javax.enterprise.context.ApplicationScoped;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.io.InputStream;
 import java.util.*;
 
@@ -26,7 +28,7 @@ public class QuestionnaireService {
 
         cache = new LinkedHashMap<>();
         // discover bundled JSON files; for simplicity list them here or scan the folder if your container allows it
-        List<String> ids = Arrays.asList("llm-current", "llm-future");
+        List<String> ids = Arrays.asList("llm-current", "llm-future", "simple");
         for (String id : ids) {
             log.debug("Searching for {}.json", id);
             Questionnaire q = loadJson("/questionnaires/" + id + ".json");

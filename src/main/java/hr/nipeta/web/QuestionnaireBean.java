@@ -4,9 +4,13 @@ import hr.nipeta.model.Question;
 import hr.nipeta.model.QuestionType;
 import hr.nipeta.model.Questionnaire;
 import hr.nipeta.service.QuestionnaireService;
+import hr.nipeta.service.SubmissionService;
+import hr.nipeta.util.JsonUtils;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.omnifaces.util.Faces;
+import org.omnifaces.util.Messages;
 import org.primefaces.event.FlowEvent;
 
 import javax.enterprise.context.SessionScoped; // keep answers across pages; switch to ViewScoped if you prefer per-view
@@ -25,7 +29,10 @@ import java.util.*;
 public class QuestionnaireBean implements Serializable {
 
     @Inject
-    private QuestionnaireService service;
+    private QuestionnaireService questionnaireService;
+
+    @Inject
+    private SubmissionService submissionService;
 
     @Setter
     private String questionnaireId;
@@ -38,7 +45,7 @@ public class QuestionnaireBean implements Serializable {
     public void load(String id) {
         if (questionnaire == null || !Objects.equals(id, questionnaireId)) {
             this.questionnaireId = id;
-            this.questionnaire = service.byId(id);
+            this.questionnaire = questionnaireService.byId(id);
             this.answers = new LinkedHashMap<>();
             for (Question q : questionnaire.getQuestions()) {
                 if (Objects.requireNonNull(q.getType()) == QuestionType.multi) {
@@ -52,7 +59,7 @@ public class QuestionnaireBean implements Serializable {
     }
 
     public List<Questionnaire> listAll() {
-        return new ArrayList<>(service.getAll().values());
+        return new ArrayList<>(questionnaireService.getAll().values());
     }
 
     public boolean validateCurrent() {
@@ -81,11 +88,29 @@ public class QuestionnaireBean implements Serializable {
     }
 
     public String submit() {
-        // TODO: persist to DB or send to API
-        System.out.println("Submitted answers for " + questionnaireId + ": " + answers);
+
+        String username = Faces.getRemoteUser();
+        if (username == null) {
+            log.warn("Postavljam 'anonymus' korisnika jer je remote user null");
+            username = "anonymus";
+        }
+
+        if (submissionService.hasSubmitted(questionnaire.getId(), username)) {
+            Messages.addGlobalWarn("Upitnik već predan");
+            return null;
+        }
+
+        String json = JsonUtils.serializeToJson(answers);
+        submissionService.save(questionnaire.getId(), username, json);
+
         String done = questionnaireId;
-        questionnaire = null; answers.clear(); index = 0; questionnaireId = null;
+        questionnaire = null;
+        answers.clear();
+        index = 0;
+        questionnaireId = null;
+
         return "index?faces-redirect=true&done=" + done;
+
     }
 
     public String onFlowProcess(FlowEvent event) {
