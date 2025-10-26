@@ -100,7 +100,20 @@
                     <appsDirectory>apps</appsDirectory>
                     <looseApplication>true</looseApplication>
                     <include>usr</include>
+                    <!-- Usually best to add configuration at the plugin level rather than trying to configure particular executions -->
+                    <copyDependencies>
+                        <dependencyGroup>
+                            <!-- Relative to server config directory -->
+                            <location>lib/global/jdbc</location>
+                            <dependency>
+                                <groupId>com.h2database</groupId>
+                                <artifactId>h2</artifactId>
+                                <version>2.1.214</version><!-- Zadnja verzija za Javu 8-->
+                            </dependency>
+                        </dependencyGroup>
+                    </copyDependencies>
                 </configuration>
+
             </plugin>
         </plugins>
     </build>
