@@ -16,7 +16,11 @@ import java.util.*;
 @Slf4j
 public class QuestionnaireService {
 
-    public static final List<String> QUESTIONNAIRES = Arrays.asList("llm-current", "llm-future", "simple", "simple-expired");
+    public static final List<String> QUESTIONNAIRES = Arrays.asList(
+            "llm-current",
+            "llm-future",
+            "simple",
+            "simple-expired");
 
     private Map<String, Questionnaire> cache;
 

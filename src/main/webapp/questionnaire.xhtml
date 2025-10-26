@@ -24,56 +24,50 @@
 
     <ui:define name="content">
 
-        <h:panelGroup rendered="#{not empty questionnaire}">
-            <h2>#{questionnaire.title}</h2>
-            <p>#{questionnaire.description}#{questionIndex}#{question}#{question.type}</p>
+        <h2>#{questionnaire.title}</h2>
+        <p>#{questionnaire.description}#{questionIndex}#{question}#{question.type}</p>
 
-            <h:form id="form" prependId="false">
+        <h:form id="form" prependId="false">
 
-                <!-- progress bar -->
-                <p:progressBar
-                        value="#{(questionIndex + 1) * 100 / questionsSize}"
-                        displayOnly="true"
-                        style="width:100%; margin-bottom:1rem" />
+            <!-- progress bar -->
+            <p:progressBar
+                    value="#{(questionIndex + 1) * 100 / questionsSize}"
+                    displayOnly="true"
+                    style="width:100%; margin-bottom:1rem" />
 
-                <!-- current question -->
-                <div class="card">
-                    <h3>Step #{questionIndex + 1} of #{questionsSize}</h3>
-                    <div class="label">#{question.label}
-                        <div value=" *" jsf:rendered="#{question.required}" />
-                    </div>
-                    <div class="help" jsf:rendered="#{not empty question.help}">#{question.help}</div>
-                    <ui:include src="fragments/q_#{question.type}.xhtml">
-                        <ui:param name="q" value="#{question}" />
-                        <ui:param name="answers" value="#{questionnaireBean.answers}" />
-                    </ui:include>
+            <!-- current question -->
+            <div class="card">
+                <h3>Step #{questionIndex + 1} of #{questionsSize}</h3>
+                <div class="label">#{question.label}
+                    <div value=" *" jsf:rendered="#{question.required}" />
                 </div>
+                <div class="help" jsf:rendered="#{not empty question.help}">#{question.help}</div>
+                <ui:include src="fragments/q_#{question.type}.xhtml">
+                    <ui:param name="q" value="#{question}" />
+                    <ui:param name="answers" value="#{questionnaireBean.answers}" />
+                </ui:include>
+            </div>
 
-                <div class="actions">
-                    <p:commandButton value="Previous"
-                                     actionListener="#{questionnaireBean.prev}"
-                                     update="form"
-                                     rendered="#{questionIndex gt 0}" />
+            <div class="actions">
+                <p:commandButton value="Previous"
+                                 actionListener="#{questionnaireBean.prev}"
+                                 update="@form"
+                                 rendered="#{questionIndex gt 0}" />
 
-                    <p:commandButton value="Next"
-                                     actionListener="#{questionnaireBean.next}"
-                                     update="form"
-                                     rendered="#{questionIndex lt questionsSize-1}" />
+                <p:commandButton value="Next"
+                                 actionListener="#{questionnaireBean.next}"
+                                 update="@form"
+                                 rendered="#{questionIndex lt questionsSize-1}" />
 
-                    <p:commandButton value="Submit"
-                                     action="#{questionnaireBean.submit}"
-                                     rendered="#{questionIndex eq questionsSize-1}" />
-                </div>
+                <p:commandButton value="Submit"
+                                 action="#{questionnaireBean.submit}"
+                                 update="@form"
+                                 rendered="#{questionIndex eq questionsSize-1}" />
+            </div>
 
-                <p:messages />
+            <p:messages />
 
-            </h:form>
-
-        </h:panelGroup>
-
-        <h:panelGroup rendered="#{empty questionnaire}">
-            <div class="card">Nepoznati upitnik.</div>
-        </h:panelGroup>
+        </h:form>
 
     </ui:define>
 </ui:composition>

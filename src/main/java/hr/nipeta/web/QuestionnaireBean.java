@@ -106,7 +106,7 @@ public class QuestionnaireBean implements Serializable {
         return true;
     }
 
-    public String submit() {
+    public void submit() throws IOException {
 
         String username = Faces.getRemoteUser();
         if (username == null) {
@@ -116,23 +116,21 @@ public class QuestionnaireBean implements Serializable {
 
         if (submissionService.hasSubmitted(questionnaire.getId(), username)) {
             Messages.addGlobalWarn("Upitnik već predan");
-            return null;
+            return;
         }
 
         String json = JsonUtils.serializeToJson(answers);
         submissionService.save(questionnaire.getId(), username, json);
 
-        String done = questionnaireId;
-
+        Messages.addFlashGlobalInfo("Hvala! Upitnik ''{0}'' je uspješno predan.", questionnaire.getTitle());
+        Faces.redirect("index.xhtml");
         resetQuestionnaire();
-
-        return "index?faces-redirect=true&done=" + done;
 
     }
 
     private void resetQuestionnaire() {
         questionnaire = null;
-        answers.clear();
+        answers = new LinkedHashMap<>();
         index = 0;
         questionnaireId = null;
     }
