@@ -4,7 +4,9 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
-    <title><ui:insert name="title">Questionnaire</ui:insert></title>
+    <title><ui:insert name="title">Ankete</ui:insert></title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&amp;display=swap"
+          rel="stylesheet" />
     <h:outputStylesheet>
         body { font-family: system-ui, sans-serif; margin: 2rem; }
         .card { border: 1px solid #ddd; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; }
@@ -12,6 +14,7 @@
         .help { color: #666; font-size: .9em; }
         .actions { margin-top: 1rem; display:flex; gap:.5rem; }
     </h:outputStylesheet>
+    <h:outputStylesheet library="css" name="style.css" />
 </h:head>
 <h:body>
     <header><h1>JSF Questionnaire</h1></header>

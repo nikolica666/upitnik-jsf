@@ -37,7 +37,7 @@
 
             <!-- current question -->
             <div class="card">
-                <h3>Step #{questionIndex + 1} of #{questionsSize}</h3>
+                <h3>Pitanje #{questionIndex + 1} / #{questionsSize}</h3>
                 <ui:include src="fragments/q_#{question.type}.xhtml">
                     <ui:param name="q" value="#{question}" />
                     <ui:param name="answers" value="#{questionnaireBean.answers}" />
@@ -45,17 +45,17 @@
             </div>
 
             <div class="actions">
-                <p:commandButton value="Previous"
+                <p:commandButton value="Prethodno pitanje"
                                  actionListener="#{questionnaireBean.prev}"
                                  update="@form"
                                  rendered="#{questionIndex gt 0}" />
 
-                <p:commandButton value="Next"
+                <p:commandButton value="Sljedeće pitanje"
                                  actionListener="#{questionnaireBean.next}"
                                  update="@form"
                                  rendered="#{questionIndex lt questionsSize-1}" />
 
-                <p:commandButton value="Submit"
+                <p:commandButton value="Predaj anketu"
                                  action="#{questionnaireBean.submit}"
                                  update="@form"
                                  rendered="#{questionIndex eq questionsSize-1}" />
