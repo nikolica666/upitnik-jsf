@@ -4,45 +4,71 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:p="http://primefaces.org/ui">
 
     <f:metadata>
         <f:viewParam name="id" value="#{questionnaireBean.questionnaireId}"/>
-        <f:event type="preRenderView" listener="#{questionnaireBean.load(questionnaireBean.questionnaireId)}"/>
+        <f:viewAction action="#{questionnaireBean.load}"/>
     </f:metadata>
+
+    <ui:param name="questionnaire" value="#{questionnaireBean.questionnaire}" />
+    <ui:param name="questions" value="#{questionnaire.questions}" />
+    <ui:param name="questionsSize" value="#{questions.size()}" />
+    <ui:param name="questionIndex" value="#{questionnaireBean.index}" />
+    <ui:param name="question" value="#{questions[questionIndex]}" />
 
     <ui:define name="content">
 
-        <h:panelGroup rendered="#{not empty questionnaireBean.questionnaire}">
-            <h2>#{questionnaireBean.questionnaire.title}</h2>
-            <p>#{questionnaireBean.questionnaire.description}</p>
+        <h:panelGroup rendered="#{not empty questionnaire}">
+            <h2>#{questionnaire.title}</h2>
+            <p>#{questionnaire.description}#{questionIndex}#{question}#{question.type}</p>
 
-            <h:form id="form">
-                <p:wizard widgetVar="wiz" showStepStatus="true" showNavBar="true" flowListener="#{questionnaireBean.onFlowProcess}">
-                    <c:forEach items="#{questionnaireBean.questionnaire.questions}" var="q" varStatus="s">
-                        <p:tab id="step#{s.index}" title="12344#{s.index + 1}">
-                            <div class="card">
-                                <div class="label">#{q.label} <h:outputText rendered="#{q.required}" value="*"/></div>
-                                <div class="help" rendered="#{not empty q.help}">#{q.help}</div>
-                                <ui:include src="/fragments/q_#{q.type}.xhtml">
-                                    <ui:param name="q" value="#{q}"/>
-                                    <ui:param name="answers" value="#{questionnaireBean.answers}"/>
-                                </ui:include>
-                            </div>
-                        </p:tab>
-                    </c:forEach>
-                </p:wizard>
+            <h:form id="form" prependId="false">
+
+                <!-- progress bar -->
+                <p:progressBar
+                        value="#{(questionIndex + 1) * 100 / questionsSize}"
+                        displayOnly="true"
+                        style="width:100%; margin-bottom:1rem" />
+
+                <!-- current question -->
+                <div class="card">
+                    <h3>Step #{questionIndex + 1} of #{questionsSize}</h3>
+                    <div class="label">#{question.label}
+                        <div value=" *" jsf:rendered="#{question.required}" />
+                    </div>
+                    <div class="help" jsf:rendered="#{not empty question.help}">#{question.help}</div>
+                    <ui:include src="fragments/q_#{question.type}.xhtml">
+                        <ui:param name="q" value="#{question}" />
+                        <ui:param name="answers" value="#{questionnaireBean.answers}" />
+                    </ui:include>
+                </div>
 
                 <div class="actions">
-                    <p:commandButton value="Previous" actionListener="#{questionnaireBean.prev}" update="form" disabled="#{questionnaireBean.index eq 0}"/>
-                    <p:commandButton value="Next" actionListener="#{questionnaireBean.next}" update="form" disabled="#{questionnaireBean.last}"/>
-                    <p:commandButton value="Submit" action="#{questionnaireBean.submit}" update="form" rendered="#{questionnaireBean.last}"/>
+                    <p:commandButton value="Previous"
+                                     actionListener="#{questionnaireBean.prev}"
+                                     update="form"
+                                     rendered="#{questionIndex gt 0}" />
+
+                    <p:commandButton value="Next"
+                                     actionListener="#{questionnaireBean.next}"
+                                     update="form"
+                                     rendered="#{questionIndex lt questionsSize-1}" />
+
+                    <p:commandButton value="Submit"
+                                     action="#{questionnaireBean.submit}"
+                                     rendered="#{questionIndex eq questionsSize-1}" />
                 </div>
+
+                <p:messages />
+
             </h:form>
+
         </h:panelGroup>
 
-        <h:panelGroup rendered="#{empty questionnaireBean.questionnaire}">
-            <div class="card">Unknown questionnaire.</div>
+        <h:panelGroup rendered="#{empty questionnaire}">
+            <div class="card">Nepoznati upitnik.</div>
         </h:panelGroup>
     </ui:define>
 </ui:composition>

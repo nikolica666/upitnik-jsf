@@ -18,6 +18,8 @@ import java.util.*;
 @Slf4j
 public class QuestionnaireService {
 
+    public static final List<String> QUESTIONNAIRES = Arrays.asList("llm-current", "llm-future", "simple");
+
     private Map<String, Questionnaire> cache;
 
     public synchronized Map<String, Questionnaire> getAll() {
@@ -28,8 +30,7 @@ public class QuestionnaireService {
 
         cache = new LinkedHashMap<>();
         // discover bundled JSON files; for simplicity list them here or scan the folder if your container allows it
-        List<String> ids = Arrays.asList("llm-current", "llm-future", "simple");
-        for (String id : ids) {
+        for (String id : QUESTIONNAIRES) {
             log.debug("Searching for {}.json", id);
             Questionnaire q = loadJson("/questionnaires/" + id + ".json");
             if (q != null) {

@@ -29,7 +29,7 @@
       ]
     },
     {
-      "id": "dept",
+      "id": "dept-multi",
       "type": "multi",
       "label": "Department",
       "required": true,

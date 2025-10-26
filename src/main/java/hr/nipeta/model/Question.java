@@ -2,12 +2,14 @@ package hr.nipeta.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.List;
 
 @Setter
 @Getter
+@ToString
 public class Question implements Serializable {
     private String id;
     private QuestionType type;
