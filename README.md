@@ -1,0 +1,1 @@
+JavaEE 7 anketa (DEV na Liberty serveru s Maven Liberty pluginom)
